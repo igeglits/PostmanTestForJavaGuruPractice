@@ -1,0 +1,3959 @@
+{
+	"info": {
+		"_postman_id": "801af997-799e-404b-8425-53d15d7524af",
+		"name": "Premium Calculatioк V3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31282756"
+	},
+	"item": [
+		{
+			"name": "Test sets",
+			"item": [
+				{
+					"name": "Multiperson check",
+					"item": [
+						{
+							"name": "Multi person check",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"{{randomCountryValue}}\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"{{randomLimitValue}}\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"{{Person_Code}}\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"{{$randomFirstName}}\",\r\n            \"personLastName\": \"{{$randomLastName}}\",\r\n            \"medicalRiskLimitLevel\": \"{{randomLimitValue}}\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"{{Person_Code}}\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"{{$randomFirstName}}\",\r\n            \"personLastName\": \"{{$randomLastName}}\",\r\n            \"medicalRiskLimitLevel\": \"{{randomLimitValue}}\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"{{Person_Code}}\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"{{randomRiskValue}}\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "JGP-11 (UI Development)",
+					"item": [
+						{
+							"name": "JGPT-2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const names = pm.globals.get(\"names\");",
+											"if (names && names.length > 0) {",
+											"    postman.setNextRequest(\"JGPT-2\");",
+											"} else {",
+											"    postman.setNextRequest(\"JGPT-3\");",
+											"",
+											"}",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"    pm.test(\"No ERROR_CODE\", function () {",
+											"        var jsonData = pm.response.json();",
+											"        pm.expect(pm.response.text()).not.include(\"ERROR_CODE\");",
+											"        pm.test(\"agreementPremium not 0.00\", function () {",
+											"            var jsonData = pm.response.json();",
+											"            pm.expect(jsonData.agreementPremium).not.eql(0.00);",
+											"        });",
+											"    });",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"let names = pm.globals.get(\"names\");\r",
+											"if (!names || names.length == 0) {\r",
+											"    names = [\"Vasja\",\r",
+											"        \"VASJA\",\r",
+											"        \"A\",\r",
+											"        \"Abcdefghjklzxcvbnmqwertyuioabcdefghjklzxcvbnmqwertyuiobcdefghjklzxcvbnmqwertyuio\",\r",
+											"        \"Abc-defg\",\r",
+											"        \"Abc Defg\"\r",
+											"    ];\r",
+											"}\r",
+											"let currentName = names.shift();\r",
+											"pm.globals.set(\"name\", currentName);\r",
+											"pm.globals.set(\"names\", names);\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"{{name}}\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"{{name}}\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const names = pm.globals.get(\"names\");",
+											"if (names && names.length > 0) {",
+											"    postman.setNextRequest(\"JGPT-3\");",
+											"} else {",
+											"    postman.setNextRequest(\"JGPT-4\");",
+											"    ",
+											"}",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"    pm.test(\"No ERROR_CODE\", function () {",
+											"        var jsonData = pm.response.json();",
+											"        pm.expect(pm.response.text()).not.include(\"ERROR_CODE\");",
+											"        pm.test(\"agreementPremium not 0.00\", function () {",
+											"            var jsonData = pm.response.json();",
+											"            pm.expect(jsonData.agreementPremium).not.eql(0.00);",
+											"        });",
+											"    });",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let names = pm.globals.get(\"names\");\r",
+											"if (!names || names.length == 0) {\r",
+											"    names = [\"Vasja\",\r",
+											"        \"VASJA\",\r",
+											"        \"A\",\r",
+											"        \"Abcdefghjklzxcvbnmqwertyuioabcdefghjklzxcvbnmqwertyuiobcdefghjklzxcvbnmqwertyuio\",\r",
+											"        \"Abc-defg\",\r",
+											"        \"Abc Defg\"\r",
+											"    ];\r",
+											"}\r",
+											"let currentName = names.shift();\r",
+											"pm.globals.set(\"name\", currentName);\r",
+											"pm.globals.set(\"names\", names);\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Pupkin\",\r\n            \"personLastName\": \"{{name}}\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petrov\",\r\n            \"personLastName\": \"{{name}}\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-4",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"    postman.setNextRequest(\"JGPT-5/ERROR_CODE_19\");",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"    pm.test(\"No ERROR_CODE\", function () {",
+											"        var jsonData = pm.response.json();",
+											"        pm.expect(pm.response.text()).not.include(\"ERROR_CODE\");",
+											"        pm.test(\"agreementPremium not 0.00\", function () {",
+											"            var jsonData = pm.response.json();",
+											"            pm.expect(jsonData.agreementPremium).not.eql(0.00);",
+											"        });",
+											"    });",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-5/ERROR_CODE_19",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const names = pm.globals.get(\"names\");",
+											"if (names && names.length > 0) {",
+											"    postman.setNextRequest(\"JGPT-5/ERROR_CODE_19\");",
+											"} else {",
+											"    postman.setNextRequest(\"JGPT-12\");",
+											"",
+											"}",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"    pm.test(\"ERROR_CODE\", function () {",
+											"        var jsonData = pm.response.json();",
+											"        pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_19\");",
+											"        pm.expect(jsonData.errors[1].errorCode).to.eql(\"ERROR_CODE_19\");",
+											"    });",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let names = pm.globals.get(\"names\");\r",
+											"if (!names || names.length ==0){\r",
+											"    names = [ \"1234-1234\",\r",
+											"    \"AERTBG-FКDFR\",\r",
+											"    \"      -     \"\r",
+											"    \"A\",\r",
+											"    \"Abcdefghjklzxcvbnmqwertyuioabcdefghjklzxcvbnmqwertyuiobcdefghjklzxcvbnmqwertyuioerty\",\r",
+											"    \"Abc-defg\",\r",
+											"    \"Abc 123\",\r",
+											"    \"123\",\r",
+											"    \"@#%\"\r",
+											"    ];\r",
+											"}\r",
+											"let currentName=names.shift();\r",
+											"pm.globals.set(\"name\", currentName);\r",
+											"pm.globals.set(\"names\", names);\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"{{name}}\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"{{name}}\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-12",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const names = pm.globals.get(\"names\");",
+											"if (names && names.length > 0) {",
+											"    postman.setNextRequest(\"JGPT-12\");",
+											"} else {",
+											"    postman.setNextRequest(\"JGPT-13\");",
+											"   ",
+											"}",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"    pm.test(\"No ERROR_CODE\", function () {",
+											"        var jsonData = pm.response.json();",
+											"        pm.expect(pm.response.text()).not.include(\"ERROR_CODE\");",
+											"        pm.test(\"agreementPremium not 0.00\", function () {",
+											"            var jsonData = pm.response.json();",
+											"            pm.expect(jsonData.agreementPremium).not.eql(0.00);",
+											"        });",
+											"    });",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let names = pm.globals.get(\"names\");\r",
+											"if (!names || names.length ==0){\r",
+											"    names = [ \"LATVIA\",\r",
+											"    \"SPAIN\",\r",
+											"    \"JAPAN\"\r",
+											"    ];\r",
+											"}\r",
+											"let currentName=names.shift();\r",
+											"pm.globals.set(\"name\", currentName);\r",
+											"pm.globals.set(\"names\", names);\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"{{name}}\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-13",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const names = pm.globals.get(\"names\");",
+											"if (names && names.length > 0) {",
+											"    postman.setNextRequest(\"JGPT-13\");",
+											"} else {",
+											"    postman.setNextRequest(\"Valid data response check\");",
+											"   ",
+											"}",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"    pm.test(\"No ERROR_CODE\", function () {",
+											"        var jsonData = pm.response.json();",
+											"        pm.expect(pm.response.text()).not.include(\"ERROR_CODE\");",
+											"        pm.test(\"agreementPremium not 0.00\", function () {",
+											"            var jsonData = pm.response.json();",
+											"            pm.expect(jsonData.agreementPremium).not.eql(0.00);",
+											"        });",
+											"    });",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let names = pm.globals.get(\"names\");\r",
+											"if (!names || names.length == 0) {\r",
+											"    names = [\"LEVEL_10000\",\r",
+											"        \"LEVEL_15000\",\r",
+											"        \"LEVEL_20000\",\r",
+											"        \"LEVEL_50000\"\r",
+											"    ];\r",
+											"}\r",
+											"let currentName = names.shift();\r",
+											"pm.globals.set(\"name\", currentName);\r",
+											"pm.globals.set(\"names\", names);\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"{{name}}\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"{{name}}\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-14",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const names = pm.globals.get(\"names\");",
+											"if (names && names.length > 0) {",
+											"    postman.setNextRequest(\"JGPT-14\");",
+											"} else {",
+											"    postman.setNextRequest(\"Valid data response check\");",
+											"",
+											"}",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"    pm.test(\"No ERROR_CODE\", function () {",
+											"        var jsonData = pm.response.json();",
+											"        pm.expect(pm.response.text()).not.include(\"ERROR_CODE\");",
+											"        pm.test(\"agreementPremium not 0.00\", function () {",
+											"            var jsonData = pm.response.json();",
+											"            pm.expect(jsonData.agreementPremium).not.eql(0.00);",
+											"        });",
+											"    });",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let names = pm.globals.get(\"names\");\r",
+											"if (!names || names.length == 0) {\r",
+											"    names = [\"TRAVEL_MEDICAL\"\r",
+											"    \r",
+											"    ];\r",
+											"}\r",
+											"let currentName = names.shift();\r",
+											"pm.globals.set(\"name\", currentName);\r",
+											"pm.globals.set(\"names\", names);\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"{{name}}\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Valid data response check",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"    pm.test(\"No ERROR_CODE\", function () {",
+											"        var jsonData = pm.response.json();",
+											"        pm.expect(pm.response.text()).not.include(\"ERROR_CODE\");",
+											"        pm.test(\"agreementPremium not 0.00\", function () {",
+											"            var jsonData = pm.response.json();",
+											"            pm.expect(jsonData.agreementPremium).not.eql(0.00);",
+											"        });",
+											"    });",
+											"});",
+											"// pm.test(\"Test valid data. Status code is 200\", function () {",
+											"//     pm.response.to.have.status(200);",
+											"// });",
+											"// pm.test(\"Content-Type is present\", function () {",
+											"//     pm.response.to.have.header(\"Content-Type\");",
+											"// });",
+											"// pm.test(\"Body has agreementId\", function () {",
+											"//     pm.expect(pm.response.text()).to.include(\"agreementId\");",
+											"// });",
+											"// pm.test(\"personFirstName test\", function () {",
+											"//     var jsonData = pm.response.json();",
+											"//     pm.expect(jsonData.personFirstName).to.eql(\"Vasja\");",
+											"// });",
+											"// pm.test(\"personLastName test\", function () {",
+											"//     var jsonData = pm.response.json();",
+											"//     pm.expect(jsonData.personLastName).to.eql(\"Pupkin\");",
+											"// });",
+											"// pm.test(\"personCode test\", function () {",
+											"//     var jsonData = pm.response.json();",
+											"//     pm.expect(jsonData.personCode).to.eql(\"123456-12345\");",
+											"// });",
+											"// pm.test(\"personBirthDate test\", function () {",
+											"//     var jsonData = pm.response.json();",
+											"//     pm.expect(jsonData.personBirthDate).to.eql(\"2024-01-14\");",
+											"// });",
+											"// pm.test(\"agreementDateFrom test\", function () {",
+											"//     var jsonData = pm.response.json();",
+											"//     pm.expect(jsonData.agreementDateFrom).to.eql(pm.variables.get(\"nextDay\"));",
+											"// });",
+											"// pm.test(\"agreementDateTo test\", function () {",
+											"//     var jsonData = pm.response.json();",
+											"//     pm.expect(jsonData.agreementDateTo).to.eql(pm.variables.get(\"twoDaysAhead\"));",
+											"// });",
+											"// pm.test(\"country test\", function () {",
+											"//     var jsonData = pm.response.json();",
+											"//     pm.expect(jsonData.country).to.eql(\"SPAIN\");",
+											"// });",
+											"// pm.test(\"medicalRiskLimitLevel test\", function () {",
+											"//     var jsonData = pm.response.json();",
+											"//     pm.expect(jsonData.medicalRiskLimitLevel).to.eql(\"LEVEL_10000\");",
+											"// });",
+											"// pm.test(\"riskIc test\", function () {",
+											"//     var jsonData = pm.response.json();",
+											"//     pm.expect(jsonData.risks[0].riskIc).to.eql(\"TRAVEL_MEDICAL\");",
+											"// });",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"SPAIN\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "JGP - 13 Error_Codes",
+					"item": [
+						{
+							"name": "Empty fields",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"    pm.test(\"No ERROR_CODE\", function () {",
+											"        var jsonData = pm.response.json();",
+											"        pm.expect(pm.response.text()).to.include(\"ERROR_CODE_13\", \"ERROR_CODE_2\",",
+											"            \"ERROR_CODE_4\",",
+											"            \"ERROR_CODE_10\",",
+											"            \"ERROR_CODE_6\",",
+											"            \"ERROR_CODE_11\",",
+											"            \"ERROR_CODE_16\",",
+											"            \"ERROR_CODE_7\",",
+											"            \"ERROR_CODE_8\"",
+											"        );",
+											"        pm.test(\"agreementPremium not 0.00\", function () {",
+											"            var jsonData = pm.response.json();",
+											"            pm.expect(jsonData.agreementPremium).not.eql(0.00);",
+											"        });",
+											"    });",
+											"});",
+											"// pm.test(\"Test valid data. Status code is 200\", function () {",
+											"//     pm.response.to.have.status(200);",
+											"// });",
+											"// pm.test(\"Content-Type is present\", function () {",
+											"//     pm.response.to.have.header(\"Content-Type\");",
+											"// });",
+											"// pm.test(\"Body has agreementId\", function () {",
+											"//     pm.expect(pm.response.text()).to.include(\"agreementId\");",
+											"// });",
+											"// pm.test(\"personFirstName test\", function () {",
+											"//     var jsonData = pm.response.json();",
+											"//     pm.expect(jsonData.personFirstName).to.eql(\"Vasja\");",
+											"// });",
+											"// pm.test(\"personLastName test\", function () {",
+											"//     var jsonData = pm.response.json();",
+											"//     pm.expect(jsonData.personLastName).to.eql(\"Pupkin\");",
+											"// });",
+											"// pm.test(\"personCode test\", function () {",
+											"//     var jsonData = pm.response.json();",
+											"//     pm.expect(jsonData.personCode).to.eql(\"123456-12345\");",
+											"// });",
+											"// pm.test(\"personBirthDate test\", function () {",
+											"//     var jsonData = pm.response.json();",
+											"//     pm.expect(jsonData.personBirthDate).to.eql(\"2024-01-14\");",
+											"// });",
+											"// pm.test(\"agreementDateFrom test\", function () {",
+											"//     var jsonData = pm.response.json();",
+											"//     pm.expect(jsonData.agreementDateFrom).to.eql(pm.variables.get(\"nextDay\"));",
+											"// });",
+											"// pm.test(\"agreementDateTo test\", function () {",
+											"//     var jsonData = pm.response.json();",
+											"//     pm.expect(jsonData.agreementDateTo).to.eql(pm.variables.get(\"twoDaysAhead\"));",
+											"// });",
+											"// pm.test(\"country test\", function () {",
+											"//     var jsonData = pm.response.json();",
+											"//     pm.expect(jsonData.country).to.eql(\"SPAIN\");",
+											"// });",
+											"// pm.test(\"medicalRiskLimitLevel test\", function () {",
+											"//     var jsonData = pm.response.json();",
+											"//     pm.expect(jsonData.medicalRiskLimitLevel).to.eql(\"LEVEL_10000\");",
+											"// });",
+											"// pm.test(\"riskIc test\", function () {",
+											"//     var jsonData = pm.response.json();",
+											"//     pm.expect(jsonData.risks[0].riskIc).to.eql(\"TRAVEL_MEDICAL\");",
+											"// });",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"\",\r\n    \"agreementDateTo\": \"\",\r\n    \"country\": \"\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"\",\r\n            \"personLastName\": \"\",\r\n            \"medicalRiskLimitLevel\": \"\",\r\n            \"personBirthDate\": \"\",\r\n            \"personCode\": \"\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-19 ERROR_CODE_7 FirstName must not be empty! (Empty String)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-19. ERROR_CODE_7 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_7\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field personFirstName must not be empty!\");\r",
+											"    pm.expect(jsonData.errors[1].errorCode).to.eql(\"ERROR_CODE_7\");\r",
+											"    pm.expect(jsonData.errors[1].description).to.eql(\"Field personFirstName must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"query": [
+										{
+											"key": "current date",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-19 ERROR_CODE_7 FirstName must not be empty! (Null)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-19. ERROR_CODE_7 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_7\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field personFirstName must not be empty!\");\r",
+											"    pm.expect(jsonData.errors[1].errorCode).to.eql(\"ERROR_CODE_7\");\r",
+											"    pm.expect(jsonData.errors[1].description).to.eql(\"Field personFirstName must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": null,\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": null,\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-19 ERROR_CODE_7 FirstName must not be empty! No personFirstName",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-19. ERROR_CODE_7 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_7\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field personFirstName must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-20 ERROR_CODE_8 LastName must not be empty! (Empty String))",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"ERROR_CODE_8 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_8\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field personLastName must not be empty!\");\r",
+											"    pm.expect(jsonData.errors[1].errorCode).to.eql(\"ERROR_CODE_8\");\r",
+											"    pm.expect(jsonData.errors[1].description).to.eql(\"Field personLastName must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"query": [
+										{
+											"key": "current date",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-20 ERROR_CODE_8 LastName must not be empty! (Null)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"ERROR_CODE_8 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_8\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field personLastName must not be empty!\");\r",
+											"    pm.expect(jsonData.errors[1].errorCode).to.eql(\"ERROR_CODE_8\");\r",
+											"    pm.expect(jsonData.errors[1].description).to.eql(\"Field personLastName must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": null,\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": null,\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-20 ERROR_CODE_8 LastName must not be empty! (no personLastName)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"ERROR_CODE_8 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_8\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field personLastName must not be empty!\");\r",
+											"    pm.expect(jsonData.errors[1].errorCode).to.eql(\"ERROR_CODE_8\");\r",
+											"    pm.expect(jsonData.errors[1].description).to.eql(\"Field personLastName must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-21 ERROR_CODE_16 personCode must not be empty!(Empty String))",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-21. ERROR_CODE_16 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_16\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field personCode must not be empty!\");\r",
+											"    pm.expect(jsonData.errors[1].errorCode).to.eql(\"ERROR_CODE_16\");\r",
+											"    pm.expect(jsonData.errors[1].description).to.eql(\"Field personCode must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"query": [
+										{
+											"key": "current date",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-21 ERROR_CODE_16 personCode must not be empty! (Null)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-21. ERROR_CODE_16 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_16\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field personCode must not be empty!\");\r",
+											"    pm.expect(jsonData.errors[1].errorCode).to.eql(\"ERROR_CODE_16\");\r",
+											"    pm.expect(jsonData.errors[1].description).to.eql(\"Field personCode must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": null\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": null\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-21 ERROR_CODE_16 personCode must not be empty! (no personCode)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-21. ERROR_CODE_16 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_16\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field personCode must not be empty!\");\r",
+											"    pm.expect(jsonData.errors[1].errorCode).to.eql(\"ERROR_CODE_16\");\r",
+											"    pm.expect(jsonData.errors[1].description).to.eql(\"Field personCode must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2024-01-14\"\r\n            \r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"2024-01-14\"\r\n            \r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-22 ERROR_CODE_11 BirthDate must not be empty! (Empty string))",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-22. ERROR_CODE_11 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_11\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field personBirthDate must not be empty!\");\r",
+											"    pm.expect(jsonData.errors[1].errorCode).to.eql(\"ERROR_CODE_11\");\r",
+											"    pm.expect(jsonData.errors[1].description).to.eql(\"Field personBirthDate must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"query": [
+										{
+											"key": "current date",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-22 ERROR_CODE_11 BirthDate must not be empty! (null)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-22. ERROR_CODE_11 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_11\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field personBirthDate must not be empty!\");\r",
+											"    pm.expect(jsonData.errors[1].errorCode).to.eql(\"ERROR_CODE_11\");\r",
+											"    pm.expect(jsonData.errors[1].description).to.eql(\"Field personBirthDate must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": null,\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": null,\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-22 ERROR_CODE_11 BirthDate must not be empty! (no personBirtDate)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-22. ERROR_CODE_11 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_11\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field personBirthDate must not be empty!\");\r",
+											"    pm.expect(jsonData.errors[1].errorCode).to.eql(\"ERROR_CODE_11\");\r",
+											"    pm.expect(jsonData.errors[1].description).to.eql(\"Field personBirthDate must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n          \r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n           \r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-23 ERROR_CODE_12 BirthDate must be in the past!",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-23. ERROR_CODE_12 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_12\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field personBirthDate must be in the past!\");\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_12\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field personBirthDate must be in the past!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"{{nextDay}}\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"2026-01-01\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"query": [
+										{
+											"key": "current date",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-24 ERROR_CODE_2 DateFrom must not be empty (Empty String))",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Testcase JGPT-24. ERROR_CODE_2 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_2\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field agreementDateFrom must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-24 ERROR_CODE_2 DateFrom must not be empty (null)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Testcase JGPT-24. ERROR_CODE_2 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_2\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field agreementDateFrom must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": null,\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-24 ERROR_CODE_2 DateFrom must not be empty (no agreementDateFrom)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Testcase JGPT-24. ERROR_CODE_2 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_2\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field agreementDateFrom must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-25 ERROR_CODE_1 DateFrom must be in the future test",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-25. ERROR_CODE_1 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_1\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field agreementDateFrom must be in the future!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{currentDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-26 ERROR_CODE_4 DateTo must not be empty! (Empty String))",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-26. ERROR_CODE_4 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_4\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field agreementDateTo must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"query": [
+										{
+											"key": "current date",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-26 ERROR_CODE_4 DateTo must not be empty! (null)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-26. ERROR_CODE_4 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_4\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field agreementDateTo must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": null,\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"query": [
+										{
+											"key": "current date",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-26 ERROR_CODE_4 DateTo must not be empty! (no agreementDateTo)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-26. ERROR_CODE_4 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_4\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field agreementDateTo must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"query": [
+										{
+											"key": "current date",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-27 ERROR_CODE_3 DateTo must be in the future!",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-27. ERROR_CODE_3 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_3\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field agreementDateTo must be in the future!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{currentDay}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"query": [
+										{
+											"key": "current date",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-28 ERROR_CODE_5 DateFrom must be less than agreementDateTo!",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-28. ERROR_CODE_5 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_5\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field agreementDateFrom must be less than agreementDateTo!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{twoDaysAhead}}\",\r\n    \"agreementDateTo\": \"{{nextDay}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"query": [
+										{
+											"key": "current date",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-29 ERROR_CODE_10 country must not be empty! (Empty String))",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-29. ERROR_CODE_10 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_10\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field country must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"query": [
+										{
+											"key": "current date",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-29 ERROR_CODE_10 country must not be empty! (null)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-29. ERROR_CODE_10 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_10\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field country must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": null,\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-29 ERROR_CODE_10 country must not be empty! (no country)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-29. ERROR_CODE_10 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_10\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field country must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n  \r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-30 ERROR_CODE_15 Country value = NOT_SUPPORTED_COUNTRY not supported!",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-30. ERROR_CODE_15 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_15\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Country value = NOT_SUPPORTED_COUNTRY not supported!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"NOT_SUPPORTED_COUNTRY\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"query": [
+										{
+											"key": "current date",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-31 ERROR_CODE_13 RiskLimitLevel must not be empty! (Empty String))",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-31. ERROR_CODE_13 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_13\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field medicalRiskLimitLevel must not be empty!\");\r",
+											"    pm.expect(jsonData.errors[1].errorCode).to.eql(\"ERROR_CODE_13\");\r",
+											"    pm.expect(jsonData.errors[1].description).to.eql(\"Field medicalRiskLimitLevel must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"query": [
+										{
+											"key": "current date",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-31 ERROR_CODE_13 RiskLimitLevel must not be empty! (null)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-31. ERROR_CODE_13 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_13\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field medicalRiskLimitLevel must not be empty!\");\r",
+											"    pm.expect(jsonData.errors[1].errorCode).to.eql(\"ERROR_CODE_13\");\r",
+											"    pm.expect(jsonData.errors[1].description).to.eql(\"Field medicalRiskLimitLevel must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": null,\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": null,\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"query": [
+										{
+											"key": "current date",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-31 ERROR_CODE_13 RiskLimitLevel must not be empty! (no medicalRiskLimitLevel)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-31. ERROR_CODE_13 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_13\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field medicalRiskLimitLevel must not be empty!\");\r",
+											"    pm.expect(jsonData.errors[1].errorCode).to.eql(\"ERROR_CODE_13\");\r",
+											"    pm.expect(jsonData.errors[1].description).to.eql(\"Field medicalRiskLimitLevel must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n           \r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n           \r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"query": [
+										{
+											"key": "current date",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-32 ERROR_CODE_14 NOT_SUPPORTED_MEDICAL_RISK_LIMIT_LEVEL not supported!",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-32. ERROR_CODE_14 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_14\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"MedicalRiskLimitLevel value = NOT_SUPPORTED_MEDICAL_RISK_LIMIT_LEVEL not supported!\");\r",
+											"    pm.expect(jsonData.errors[1].errorCode).to.eql(\"ERROR_CODE_14\");\r",
+											"    pm.expect(jsonData.errors[1].description).to.eql(\"MedicalRiskLimitLevel value = NOT_SUPPORTED_MEDICAL_RISK_LIMIT_LEVEL not supported!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"NOT_SUPPORTED_MEDICAL_RISK_LIMIT_LEVEL\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"NOT_SUPPORTED_MEDICAL_RISK_LIMIT_LEVEL\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"query": [
+										{
+											"key": "current date",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-33 ERROR_CODE_6 selectedRisks must not be empty! (Empty String))",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-33. ERROR_CODE_6 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_6\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field selectedRisks must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n       \r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"query": [
+										{
+											"key": "current date",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-33 ERROR_CODE_6 selectedRisks must not be empty! (null)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-33. ERROR_CODE_6 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_6\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field selectedRisks must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"query": [
+										{
+											"key": "current date",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-33 ERROR_CODE_6 selectedRisks must not be empty! (no selected_risks)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-33. ERROR_CODE_6 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_6\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Field selectedRisks must not be empty!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ]\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-34 ERROR_CODE_9 Risk Type ic = NOT_EXISTING_RISK_TYPE not supported!",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"TestCase JGPT-34. ERROR_CODE_9 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_9\");\r",
+											"    pm.expect(jsonData.errors[0].description).to.eql(\"Risk Type ic = NOT_EXISTING_RISK_TYPE not supported!\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"234567-23456\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \r\n            \"NOT_EXISTING_RISK_TYPE\"\r\n        \r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"query": [
+										{
+											"key": "current date",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-2-1  and JGPT-19-1 ERROR_CODE_20",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"ERROR_CODE20 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_20\");\r",
+											"   \r",
+											"    pm.expect(jsonData.errors[1].errorCode).to.eql(\"ERROR_CODE_20\");\r",
+											"    \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let names = pm.globals.get(\"names\");\r",
+											"if (!names || names.length == 0) {\r",
+											"    names = [\r",
+											"        \" \",\r",
+											"        \"  \",\r",
+											"        \"  A\",\r",
+											"        \"123\",\r",
+											"        \"@\",\r",
+											"        \"АБВ\"\r",
+											"    ];\r",
+											"}\r",
+											"let currentName = names.shift();\r",
+											"pm.globals.set(\"name\", currentName);\r",
+											"pm.globals.set(\"names\", names);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"{{name}}\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"{{name}}\",\r\n            \"personLastName\": \"Petrov\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"query": [
+										{
+											"key": "current date",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-3-1 and JGPT-20-1 ERROR_CODE_21",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"ERROR_CODE21 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_21\");\r",
+											"   \r",
+											"    pm.expect(jsonData.errors[1].errorCode).to.eql(\"ERROR_CODE_21\");\r",
+											"    \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let names = pm.globals.get(\"names\");\r",
+											"if (!names || names.length == 0) {\r",
+											"    names = [\r",
+											"        \" \",\r",
+											"        \"  \",\r",
+											"        \"  A\",\r",
+											"        \"123\",\r",
+											"        \"@\",\r",
+											"        \"АБВ\"\r",
+											"    ];\r",
+											"}\r",
+											"let currentName = names.shift();\r",
+											"pm.globals.set(\"name\", currentName);\r",
+											"pm.globals.set(\"names\", names);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"{{name}}\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Petja\",\r\n            \"personLastName\": \"{{name}}\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"query": [
+										{
+											"key": "current date",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-2-2 and JGPT-3-2 ERROR_CODE_22",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"ERROR_CODE22 received\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.eql(\"ERROR_CODE_22\");\r",
+											"   \r",
+											"    pm.expect(jsonData.errors[1].errorCode).to.eql(\"ERROR_CODE_22\");\r",
+											"\r",
+											"    pm.expect(jsonData.errors[2].errorCode).to.eql(\"ERROR_CODE_22\");\r",
+											"\r",
+											"    pm.expect(jsonData.errors[3].errorCode).to.eql(\"ERROR_CODE_22\");\r",
+											"    \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"AsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzA\",\r\n            \"personLastName\": \"AsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzA\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"AsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzA\",\r\n            \"personLastName\": \"AsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzAsdfghjklzA\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"2024-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"query": [
+										{
+											"key": "current date",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "JGP - 14 Develop code to calculate CountryDefaultDayPremium",
+					"item": [
+						{
+							"name": "JGPT-35 Country LATVIA",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"agreementPremium test (LATVIA)\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.agreementPremium).to.eql(2.00);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-35 Country SPAIN",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"agreementPremium test (SPAIN)\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.agreementPremium).to.eql(5.00);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"SPAIN\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-35 Country JAPAN",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"agreementPremium test (JAPAN)\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.agreementPremium).to.eql(7.00);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"JAPAN\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "JGP - 15 Develop code to calculate DayCount",
+					"item": [
+						{
+							"name": "JGPT-36(-1) 1 day agreement",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"DayCount test (nextDay - today = 1 day)\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.agreementPremium).to.eql(2.00);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-36(-1) 10 day agreement",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"DayCount test (10 - today = 9 day)\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.agreementPremium).to.eql(18.00);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{tenDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-36-1 30 day agreement",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"DayCount test (30 - today = 29 day)\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.agreementPremium).to.eql(58.00);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{thirtyDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-36-1 100 day agreement",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"DayCount test (100 - today = 99 day)\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.agreementPremium).to.eql(198.00);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{hundredDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-36-1 500 day agreement",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"DayCount test (500 - today = 499 day)\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.agreementPremium).to.eql(998.00);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{fiveHundredDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-36-2 same date for FROM and TO",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Same date for From and To should throw ERROR\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors[0].errorCode).to.include(\"ERROR_CODE\");\r",
+											"    });"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{nextDay}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "JGP - 17 Develop code to calculate AgeCoefficient",
+					"item": [
+						{
+							"name": "JGPT-37 AgeCoefficient 0-5 years",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"AgeCoefficient 0-5 years\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.agreementPremium).to.eql(2.20);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2020-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2020-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-37 AgeCoefficient 6-10 years",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"AgeCoefficient 6-10 years\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.agreementPremium).to.eql(1.40);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2018-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2018-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-37 AgeCoefficient 11-17 years",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"AgeCoefficient 11-17 years\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.agreementPremium).to.eql(2.00);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-37 AgeCoefficient 18-40 years",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"AgeCoefficient 18-40 years\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.agreementPremium).to.eql(2.20);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"1990-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"1990-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-37 AgeCoefficient 41-65 years",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"AgeCoefficient 41-65 years\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.agreementPremium).to.eql(2.40);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"1980-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"1980-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-37 AgeCoefficient 65-150 years",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"AgeCoefficient 65-150 years\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.agreementPremium).to.eql(3.00);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"1920-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"1920-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-37-2 ( +150  year old)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"ERROR in response\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    var wordToCheck = \"ERROR\";\r",
+											"\r",
+											"    // Преобразуем JSON в строку и ищем слово в ней\r",
+											"    var jsonString = JSON.stringify(jsonData);\r",
+											"    var containsWord = jsonString.includes(wordToCheck);\r",
+											"\r",
+											"    // Проверяем, содержится ли слово в JSON-ответе\r",
+											"    pm.expect(containsWord).to.be.true;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"1860-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"1860-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "JGP - 18 Develop code to calculate InsuranceLimitCoefficient",
+					"item": [
+						{
+							"name": "JGPT-39  InsuranceLimitCoefficient LEVEL_10000",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"InsuranceLimitCoefficient LEVEL_10000\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.agreementPremium).to.eql(2.00);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_10000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-39  InsuranceLimitCoefficient LEVEL_15000",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"InsuranceLimitCoefficient LEVEL_15000\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.agreementPremium).to.eql(2.40);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_15000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_15000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-39  InsuranceLimitCoefficient LEVEL_20000",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"InsuranceLimitCoefficient LEVEL_20000\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.agreementPremium).to.eql(3.00);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_20000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JGPT-39  InsuranceLimitCoefficient LEVEL_50000",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"InsuranceLimitCoefficient LEVEL_50000\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.agreementPremium).to.eql(4.00);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_50000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_50000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"agreementId\", jsonData.agreementId)",
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Compare POST and GET responses with agreement id",
+			"item": [
+				{
+					"name": "Add new agreement, receive id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.test(\"No ERROR_CODE\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(pm.response.text()).not.include(\"ERROR_CODE\");",
+									"        pm.test(\"agreementPremium not 0.00\", function () {",
+									"            var jsonData = pm.response.json();",
+									"            pm.expect(jsonData.agreementPremium).not.eql(0.00);",
+									"        });",
+									"    });",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"agreementId\", jsonData.agreementId)//устанавливаем значение agreementID в ",
+									"//окружение ",
+									"",
+									"//записываем весь ответ в jsaon для проверки с целым ответом в Get with agreement id",
+									"pm.globals.set(\"aResponseAsJson\", pm.response.json());",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{twoDaysAhead}}\",\r\n    \"country\": \"LATVIA\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"Vasja\",\r\n            \"personLastName\": \"Pupkin\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_15000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"Masha\",\r\n            \"personLastName\": \"Pupkina\",\r\n            \"medicalRiskLimitLevel\": \"LEVEL_15000\",\r\n            \"personBirthDate\": \"2009-01-14\",\r\n            \"personCode\": \"123456-12345\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}",
+							"host": [
+								"{{base_url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "With id receive policy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"compare responses from POST and GET with agreement id\", () =>\r",
+									"    pm.expect(pm.response.json()).to.deep.equal(pm.globals.get(\"aResponseAsJson\")));\r",
+									"pm.globals.unset(\"aResponseAsJson\");\r",
+									"// из глобальных переменных забираем aResponseAsJson, проверяем с полученным\r",
+									"// ответом в GET и сразу удаляем aResponseAsJson из переменных."
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}agreement/{{agreementId}}",
+							"host": [
+								"{{base_url}}agreement"
+							],
+							"path": [
+								"{{agreementId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "load test, code 200, Response time",
+			"item": [
+				{
+					"name": "Add new agreement",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.test(\"No ERROR_CODE\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(pm.response.text()).not.include(\"ERROR_CODE\");",
+									"        pm.test(\"agreementPremium not 0.00\", function () {",
+									"            var jsonData = pm.response.json();",
+									"            pm.expect(jsonData.agreementPremium).not.eql(0.00);",
+									"        });",
+									"    });",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"agreementDateFrom\": \"{{nextDay}}\",\r\n    \"agreementDateTo\": \"{{futureDate}}\",\r\n    \"country\": \"{{randomCountryValue}}\",\r\n    \"persons\": [\r\n        {\r\n            \"personFirstName\": \"{{$randomFirstName}}\",\r\n            \"personLastName\": \"{{$randomLastName}}\",\r\n            \"medicalRiskLimitLevel\": \"{{randomLimitValue}}\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"{{Person_Code}}\"\r\n        },\r\n        {\r\n            \"personFirstName\": \"{{$randomFirstName}}\",\r\n            \"personLastName\": \"{{$randomLastName}}\",\r\n            \"medicalRiskLimitLevel\": \"{{randomLimitValue}}\",\r\n            \"personBirthDate\": \"{{pastDate}}\",\r\n            \"personCode\": \"{{Person_Code}}\"\r\n        }\r\n    ],\r\n    \"selected_risks\": [\r\n        \"TRAVEL_MEDICAL\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}",
+							"host": [
+								"{{base_url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "for the separate run of only this folder set iterations 100, 1000 and more.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"// var countryArray = [",
+							"//     \"LATVIA\",",
+							"//     \"SPAIN\",",
+							"//     \"JAPAN\"];",
+							"// var randomCountryIndex = Math.floor(Math.random() * countryArray.length);",
+							"// var randomCountryValue = countryArray[randomCountryIndex];",
+							"",
+							"// pm.environment.set(\"randomCountryValue\", randomCountryValue);",
+							"",
+							"// var limitArray = [",
+							"//     \"LEVEL_10000\",",
+							"//     \"LEVEL_15000\",",
+							"//     \"LEVEL_20000\",",
+							"//     \"LEVEL_50000\"];",
+							"// var randomLimitIndex = Math.floor(Math.random() * limitArray.length);",
+							"// var randomLimitValue = limitArray[randomLimitIndex];",
+							"",
+							"// pm.environment.set(\"randomLimitValue\", randomLimitValue);",
+							"",
+							"// var riskArray = [",
+							"//     \"TRAVEL_MEDICAL\"",
+							"// ];",
+							"// var randomRiskIndex = Math.floor(Math.random() * riskArray.length);",
+							"// var randomRiskValue = riskArray[randomRiskIndex];",
+							"",
+							"// pm.environment.set(\"randomRiskValue\", randomRiskValue);"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"let currentDate = new Date();",
+					"let currentDay = currentDate.toISOString().split('T')[0];",
+					"",
+					"let nextDay = new Date(currentDate);",
+					"nextDay.setDate(currentDate.getDate() + 1);",
+					"let nextDayFormatted = nextDay.toISOString().split('T')[0];",
+					"// var nextDay = moment().add(1, 'day').format('YYYY-MM-DD');",
+					"",
+					"let twoDaysAhead = new Date(currentDate);",
+					"twoDaysAhead.setDate(currentDate.getDate() + 2);",
+					"let twoDaysAheadFormatted = twoDaysAhead.toISOString().split('T')[0];",
+					"",
+					"let oneDayBefore = new Date(currentDate);",
+					"oneDayBefore.setDate(currentDate.getDate() - 1);",
+					"let oneDayBeforeFormatted = oneDayBefore.toISOString().split('T')[0];",
+					"",
+					"let tenDaysAhead = new Date(currentDate);",
+					"tenDaysAhead.setDate(currentDate.getDate() + 10);",
+					"let tenDaysAheadFormatted = tenDaysAhead.toISOString().split('T')[0];",
+					"",
+					"let thirtyDaysAhead = new Date(currentDate);",
+					"thirtyDaysAhead.setDate(currentDate.getDate() + 30);",
+					"let thirtyDaysAheadFormatted = thirtyDaysAhead.toISOString().split('T')[0];",
+					"",
+					"let hundredDaysAhead = new Date(currentDate);",
+					"hundredDaysAhead.setDate(currentDate.getDate() + 100);",
+					"let hundredDaysAheadFormatted = hundredDaysAhead.toISOString().split('T')[0];",
+					"",
+					"let fiveHundredDaysAhead = new Date(currentDate);",
+					"fiveHundredDaysAhead.setDate(currentDate.getDate() + 500);",
+					"let fiveHundredDaysAheadFormatted = fiveHundredDaysAhead.toISOString().split('T')[0];",
+					"",
+					"let futureDate = new Date(nextDay);",
+					"futureDate.setDate(currentDate.getDate() + Math.floor(Math.random() * 100) ); // Генерируем случайное ..////количество дней вперед от 1 до 100",
+					"let futureDateFormatted = futureDate.toISOString().split('T')[0];",
+					"console.log(futureDateFormatted);",
+					"",
+					"let pastDate = new Date(currentDate);",
+					"pastDate.setDate(currentDate.getDate() - Math.floor(Math.random() * 54750) ); // Генерируем случайное ..////количество дней назад от 1 до 150 лет",
+					"let pastDateFormatted = pastDate.toISOString().split('T')[0];",
+					"console.log(pastDateFormatted);",
+					"",
+					"// Генерируем случайное число с указанным количеством цифр",
+					"function generateRandomNumber(digits) {",
+					"    var min = Math.pow(10, digits - 1);",
+					"    var max = Math.pow(10, digits) - 1;",
+					"    return Math.floor(Math.random() * (max - min + 1)) + min;",
+					"}",
+					"// Генерируем первую часть числа (XXXXXX)",
+					"var firstPart = generateRandomNumber(6);",
+					"// Генерируем вторую часть числа (ХХХХХ)",
+					"var secondPart = generateRandomNumber(5);",
+					"// Создаем переменную в формате ХХХХХХ-ХХХХХ",
+					"var randomNumber = firstPart + \"-\" + secondPart;",
+					"// Устанавливаем переменную в глобальные переменные Postman",
+					"pm.globals.set(\"Person_Code\", randomNumber);",
+					"",
+					"",
+					"pm.environment.set(\"currentDay\", currentDay);",
+					"pm.environment.set(\"nextDay\", nextDayFormatted);",
+					"pm.environment.set(\"twoDaysAhead\", twoDaysAheadFormatted);",
+					"pm.environment.set(\"oneDayBefore\", oneDayBeforeFormatted);",
+					"pm.environment.set(\"tenDaysAhead\", tenDaysAheadFormatted);",
+					"pm.environment.set(\"thirtyDaysAhead\", thirtyDaysAheadFormatted);",
+					"pm.environment.set(\"hundredDaysAhead\", hundredDaysAheadFormatted);",
+					"pm.environment.set(\"fiveHundredDaysAhead\", fiveHundredDaysAheadFormatted);",
+					"pm.environment.set(\"futureDate\", futureDateFormatted);",
+					"pm.environment.set(\"pastDate\", pastDateFormatted);",
+					"",
+					"var countryArray = [",
+					"    \"LATVIA\",",
+					"    \"SPAIN\",",
+					"    \"JAPAN\"];",
+					"var randomCountryIndex = Math.floor(Math.random() * countryArray.length);",
+					"var randomCountryValue = countryArray[randomCountryIndex];",
+					"",
+					"pm.environment.set(\"randomCountryValue\", randomCountryValue);",
+					"",
+					"var limitArray = [",
+					"    \"LEVEL_10000\",",
+					"    \"LEVEL_15000\",",
+					"    \"LEVEL_20000\",",
+					"    \"LEVEL_50000\"];",
+					"var randomLimitIndex = Math.floor(Math.random() * limitArray.length);",
+					"var randomLimitValue = limitArray[randomLimitIndex];",
+					"",
+					"pm.environment.set(\"randomLimitValue\", randomLimitValue);",
+					"",
+					"var riskArray = [",
+					"    \"TRAVEL_MEDICAL\"",
+					"];",
+					"var randomRiskIndex = Math.floor(Math.random() * riskArray.length);",
+					"var randomRiskValue = riskArray[randomRiskIndex];",
+					"",
+					"pm.environment.set(\"randomRiskValue\", randomRiskValue);",
+					"",
+					"",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
